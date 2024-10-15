@@ -17,3 +17,4 @@ _mysum:                          ! int mysum(int x, int y)
         ret
 
 _g:     .word 1234               ! global _g defined here
+
