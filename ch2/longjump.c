@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <setjmp.h>
 
-jmp_buf env; // for saving longjmp environment
+jmp_buf env; /* for saving longjmp environment */
 
-// Function prototypes
+/* Function prototypes */
 void A();
 void B();
 
