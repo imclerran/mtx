@@ -1,3 +1,8 @@
+# makefile for the equivalent of:
+# `bcc -c -ansi tc.c ts.s`
+# `ld86 /usr/lib/bcc/crt0.o tc.o ts.o /usr/lib/bcc/libc.a`
+
+
 # compiler, assembler, linker
 CC = bcc
 AS = as86
