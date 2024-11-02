@@ -2,4 +2,4 @@
 as86 -o bs.o bs.s
 bcc  -c -ansi bc.c
 ld86 -d -o $1 bs.o bc.o /usr/lib/bcc/libc.a
-dd if=$1 of=IMAGE bs=512 count=1 conv=notrunc
+dd if=$1 of=disk.img bs=512 count=1 conv=notrunc
