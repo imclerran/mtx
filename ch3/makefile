@@ -32,3 +32,4 @@ boot: $(IMAGE)
 # Clean up generated files
 clean:
 	rm -f $(BSO) $(BCO) $(TARGET) $(IMAGE)
+
