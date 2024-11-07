@@ -5,7 +5,7 @@
 	OSSEG    =  0x1000  ! MTX kernel segment
 	SSP      =  32*1024 ! booter stack size = 32KB
 	BSECTORS =  2       ! number of sectors to load initially
-! Boot SECTOR loaded at (0000:7C00). reload booter to segment 0x9800
+	! Boot SECTOR loaded at (0000:7C00). reload booter to segment 0x9800
 
 start:
 	mov  ax, #BOOTSEG   ! set ES to 0x9800
@@ -30,12 +30,18 @@ next:
 	jmpi 0, OSSEG	    ! jump to execute OS kernel at (OSSEG,0)
 
 !======================= I/O functions ==========================
-_getc: ! char getc(): return an input char
+	!-----------------------------------
+	! char getc(): return an input char
+	!-----------------------------------
+_getc:
 	xorb ah, ah         ! clear ah
 	int  0x16	    ! call BIOS to get a char in AX
 	ret
 
-_putc: ! putc(char c): print a char
+	!-----------------------------------
+	! putc(char c): print a char
+	!-----------------------------------
+_putc:
 	push bp
 	mov  bp, sp
 	movb al, 4[bp]      ! aL = char
@@ -44,7 +50,10 @@ _putc: ! putc(char c): print a char
 	pop  bp
 	ret
 
-_readfd: ! readfd(cyl,head,sector): load _NSEC sectors to (ES,0)
+	!-----------------------------------
+	! readfd(cyl,head,sector): load _NSEC sectors to (ES,0)
+	!-----------------------------------
+_readfd:
 	push bp
 	mov  bp, sp         ! bp = stack frame pointer
 	movb dl, #0x00      ! drive=0 = FD0
@@ -60,7 +69,10 @@ _readfd: ! readfd(cyl,head,sector): load _NSEC sectors to (ES,0)
 	pop  bp
 	ret
 
-_setes: ! setes(segment): set ES to a segment
+	!-----------------------------------
+	! setes(segment): set ES to a segment
+	!-----------------------------------
+_setes:
 	push bp
 	mov  bp, sp
 	mov  ax, 4[bp]
@@ -68,7 +80,10 @@ _setes: ! setes(segment): set ES to a segment
 	pop  bp
 	ret
 
-_inces: ! inces(): increment ES by _NSEC sectors (in 16-byte clicks)
+	!-----------------------------------
+	! inces(): increment ES by _NSEC sectors (in 16-byte clicks)
+	!-----------------------------------
+_inces:
 	mov  bx, _NSEC      ! get _NSEC in BX
 	shl  bx, #5         ! multiply by 2**5 = 32
 	mov  ax, es         ! current ES
@@ -76,7 +91,10 @@ _inces: ! inces(): increment ES by _NSEC sectors (in 16-byte clicks)
 	mov  es, ax         ! update ES
 	ret
 
-_error: ! error() and reboot
+	!-----------------------------------
+	! error() and reboot
+	!-----------------------------------
+_error:
 	push #msg
 	call _prints
 	int 0x19            ! reboot
