@@ -11,7 +11,7 @@ int prints(char *s) { while(*s) putc(*s++); }
 int getsector(u16 sector)
 { 
   /* CHS (cyl, head, sector) format
-  /* cyl=sector/36
+   * cyl=sector/36
    * head=(sector%36)/18
    * sec=(sector%36)/%18
    */
