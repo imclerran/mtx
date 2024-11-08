@@ -98,5 +98,5 @@ _error:
 	push #msg
 	call _prints
 	int 0x19            ! reboot
-msg:	.asciz  "Error"
+msg:	.asciz  "Error\n\n\r"
 

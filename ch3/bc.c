@@ -9,7 +9,14 @@ int tsize, dsize, ksectors, i, NSEC = 1;
 int prints(char *s) { while(*s) putc(*s++); }
 
 int getsector(u16 sector)
-{ readfd(sector/36, ((sector)%36)/18, (((sector)%36)%18)); }
+{ 
+  /* CHS (cyl, head, sector) format
+  /* cyl=sector/36
+   * head=(sector%36)/18
+   * sec=(sector%36)/%18
+   */
+  readfd(sector/36, ((sector)%36)/18, (((sector)%36)%18)); 
+}
 
 main()
 {
@@ -22,4 +29,5 @@ main()
     getsector(i); inces(); putc('.');
   }
   prints("\n\rready to go?"); getc();
+  error();
 }
