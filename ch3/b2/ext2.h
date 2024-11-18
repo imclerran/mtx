@@ -23,6 +23,17 @@ typedef struct ext2_inode {
 
 } INODE;
 
+typedef struct ext2_group_desc {
+	u32 bg_block_bitmap;		/* Blocks bitmap block */
+	u32 bg_inode_bitmap;		/* Inodes bitmap block */
+	u32 bg_inode_table;			/* Inodes table block */
+	u16 bg_free_blocks_count;	/* Free blocks count */
+	u16 bg_free_inodes_count;	/* Free inodes count */
+	u16 bg_used_dirs_count; 	/* Directories count */
+	u16 bg_pag;
+	u32 bg_reserved[3];
+}
+
 typedef struct ext2_dir_entry_2 {
 	u32 inode;			/* Inode number */
 	u16 rec_len;		/* Directory entry length */
