@@ -35,7 +35,7 @@ next:
 	!-----------------------------------
 _getc:
 	xorb ah, ah         ! clear ah
-	int  0x16	    ! call BIOS to get a char in AX
+	int  0x16		    ! call BIOS to get a char in AX
 	ret
 
 	!-----------------------------------
@@ -61,7 +61,7 @@ _readfd:
 	movb cl, 8[bp]      ! sector
 	incb cl             ! inc sector by 1 to suit BIOS
 	movb ch, 4[bp]      ! cyl
-	movb bx, 10[bp]		! buf: offset in ES segment
+	mov  bx, 10[bp]		! buf: offset in ES segment
 	movb ah, #0x02      ! READ
 	movb al, _NSEC      ! read _NSEC sectors to (ES,BX)
 	int  0x13           ! call BIOS to read disk sectors

@@ -4,17 +4,20 @@
 #include "ext2.h"
 #define BLK 1024
 
-typedef unsigned char 	u8;
-typedef unsigned short 	u16;
-typedef unsigned long 	u32;
-typedef struct ext2_group_desc	GD;
-typedef struct ext2_indode		INODE;
-typedef struct ext2_dir_entry_2	DIR;
-
 u16 NSEC = 2;
 char buf1[BLK], buf2[BLK];		// 2 I/O buffers of 1KB each
 
 int prints(char *s) { while(*s) putc(*s++); }
+
+int gets(char *s) {	// to keep code simple, no length checking
+	while ((*s=getc()) != '\r') 
+		putc(*s++);
+	*s = 0;
+}
+
+int getblk(u16 blk, char *buf) {
+	readfd(blk/18, ((2*blk)%36)/18, ((2*blk)%36)%18, buf);
+}
 
 u16 search(INODE *ip, char *name)
 {
@@ -22,21 +25,22 @@ u16 search(INODE *ip, char *name)
 	for (i=0; i<12; i++) { // assume a DIR has at most 12 direct blocks
 		if ( (u16)ip->i_block[i] ) {
 			getblk((u16)ip->i_block[i], buf2);
-			dp (DIR *)buf2;
+			dp = (DIR *)buf2;
 			while ((char *)dp < &buf2[BLK]) {
-				c = dp->name[dp->name_nen];  // save last byte
+				c = dp->name[dp->name_len];  // save last byte
 				dp->name[dp->name_len] = 0;  // make name into a string
 				prints(dp->name); putc(' '); // show dp->name string
 				if ( strcmp(dp->name, name) == 0 ) {
 					prints("\n\r");
-					dp->name[dp->name_len] = c; // restore last byte
+					//dp->name[dp->name_len] = c; // restore last byte
 					return((u16)dp->inode);
 				}
 				dp->name[dp->name_len] = c; // restore last byte
-				dp = char (char *)dp + dp->rec_len;
+				dp = (char *)dp + dp->rec_len;
 			}
 		}
 		error(); // to error() if can't find file name
+	}
 }
 
 main() // booter's main function, called from assembly code

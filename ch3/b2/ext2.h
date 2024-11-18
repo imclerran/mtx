@@ -32,7 +32,7 @@ typedef struct ext2_group_desc {
 	u16 bg_used_dirs_count; 	/* Directories count */
 	u16 bg_pag;
 	u32 bg_reserved[3];
-}
+} GD;
 
 typedef struct ext2_dir_entry_2 {
 	u32 inode;			/* Inode number */
@@ -42,4 +42,4 @@ typedef struct ext2_dir_entry_2 {
 	char name[256];		/* File name */
 } DIR;
 
-#endif EXT2_H
+#endif // EXT2_H
